@@ -39,6 +39,9 @@ function handleSymbol(symbol){
         case '−':
         case '×':
         case '÷':
+        case '√':
+        case '^':
+        case 'log':
             handleMath(symbol);
             break
     }
@@ -60,6 +63,15 @@ function handleMath(symbol){
     buffer = '0';
 }
 
+function constant(intBuffer) {
+    if (screen.textContent == 0) {
+        screen.textContent = "";
+    }
+    if (intBuffer == "e")
+        screen.textContent += Math.E.toFixed(8);
+}
+
+
 function flushOperation(intBuffer){
     if(previousOperator === '+'){
         runnigTotal += intBuffer;
@@ -69,6 +81,12 @@ function flushOperation(intBuffer){
         runnigTotal *= intBuffer
     }else if(previousOperator === '÷'){
         runnigTotal /= intBuffer;
+    }else if(previousOperator === '√'){
+        runnigTotal = Math.pow(intBuffer, 1/runnigTotal);
+    }else if(previousOperator === '^'){
+        runnigTotal **= intBuffer;
+    }else if(previousOperator === 'log'){
+        runnigTotal = Math.log(buffer) / Math.log(runnigTotal);
     }
 }
 
